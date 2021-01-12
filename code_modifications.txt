@@ -6,3 +6,7 @@ utils_datasets.py
         __getitem__
             -> comentat les data augmentation de HSV, random_perspective i flips
             -> afegir crida a data_augmentation_0
+
+
+requirements.txt
+    -> afegir imgaug

@@ -23,7 +23,7 @@ from tqdm import tqdm
 from utils.general import xyxy2xywh, xywh2xyxy, clean_str
 from utils.torch_utils import torch_distributed_zero_first
 
-import data_augmentation as da
+import utils.data_augmentation as da
 
 # Parameters
 help_url = 'https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data'
