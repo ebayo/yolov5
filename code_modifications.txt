@@ -1,0 +1,8 @@
+Modificacions al codi base d'ultralytics
+
+
+utils_datasets.py
+    class LoadImagesAndLabels
+        __getitem__
+            -> comentat les data augmentation de HSV, random_perspective i flips
+            -> afegir crida a data_augmentation_0

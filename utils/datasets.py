@@ -23,6 +23,8 @@ from tqdm import tqdm
 from utils.general import xyxy2xywh, xywh2xyxy, clean_str
 from utils.torch_utils import torch_distributed_zero_first
 
+import data_augmentation as da
+
 # Parameters
 help_url = 'https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data'
 img_formats = ['bmp', 'jpg', 'jpeg', 'png', 'tif', 'tiff', 'dng']  # acceptable image suffixes
@@ -529,15 +531,19 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         if self.augment:
             # Augment imagespace
             if not mosaic:
-                img, labels = random_perspective(img, labels,
-                                                 degrees=hyp['degrees'],
-                                                 translate=hyp['translate'],
-                                                 scale=hyp['scale'],
-                                                 shear=hyp['shear'],
-                                                 perspective=hyp['perspective'])
+                #img, labels = random_perspective(img, labels,
+                #                                degrees=hyp['degrees'],
+                #                                translate=hyp['translate'],
+                #                                 scale=hyp['scale'],
+                #                                 shear=hyp['shear'],
+                #                                 perspective=hyp['perspective'])
+                # TODO: add call to custom data augmentation, setting rest of data augmentation parameters to 0
+                # Custom data augmentation 0 --> gaussian blur
+                img = da.data_augmentation_0(img, hyp['g_blur'])
+
 
             # Augment colorspace
-            augment_hsv(img, hgain=hyp['hsv_h'], sgain=hyp['hsv_s'], vgain=hyp['hsv_v'])
+            #augment_hsv(img, hgain=hyp['hsv_h'], sgain=hyp['hsv_s'], vgain=hyp['hsv_v'])
 
             # Apply cutouts
             # if random.random() < 0.9:
@@ -549,18 +555,18 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
             labels[:, [2, 4]] /= img.shape[0]  # normalized height 0-1
             labels[:, [1, 3]] /= img.shape[1]  # normalized width 0-1
 
-        if self.augment:
+        #if self.augment:
             # flip up-down
-            if random.random() < hyp['flipud']:
-                img = np.flipud(img)
-                if nL:
-                    labels[:, 2] = 1 - labels[:, 2]
+        #    if random.random() < hyp['flipud']:
+        #        img = np.flipud(img)
+        #        if nL:
+        #            labels[:, 2] = 1 - labels[:, 2]
 
             # flip left-right
-            if random.random() < hyp['fliplr']:
-                img = np.fliplr(img)
-                if nL:
-                    labels[:, 1] = 1 - labels[:, 1]
+        #    if random.random() < hyp['fliplr']:
+        #        img = np.fliplr(img)
+        #        if nL:
+        #            labels[:, 1] = 1 - labels[:, 1]
 
         labels_out = torch.zeros((nL, 6))
         if nL:
