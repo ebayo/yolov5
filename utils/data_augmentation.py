@@ -9,4 +9,4 @@ def data_augmentation_0 (img, g_blur = 3):
     # simplest data augmentation, try library
 
     aug = iaa.GaussianBlur(sigma=(0, g_blur))
-    return aug(img)
+    return aug(image=img)
