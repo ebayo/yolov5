@@ -527,6 +527,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 labels[:, 2] = ratio[1] * h * (x[:, 2] - x[:, 4] / 2) + pad[1]  # pad height
                 labels[:, 3] = ratio[0] * w * (x[:, 1] + x[:, 3] / 2) + pad[0]
                 labels[:, 4] = ratio[1] * h * (x[:, 2] + x[:, 4] / 2) + pad[1]
+                print("Shape of labels: {}".format(labels.shape))
 
         if self.augment:
             # Augment imagespace
@@ -538,9 +539,11 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 #                                 shear=hyp['shear'],
                 #                                 perspective=hyp['perspective'])
                 # TODO: add call to custom data augmentation, setting rest of data augmentation parameters to 0
-                # Custom data augmentation 0 --> gaussian blur
-                img = da.data_augmentation_0(img, hyp['g_blur'])
-
+                # Custom data augmentation
+                # 0 --> gaussian blur
+                #img = da.data_augmentation_0(img, hyp['g_blur'])
+                # 1 --> Crop and Pad
+                img, labels = da.data_augmentation_1(img, labels, hyp['pad'])
 
             # Augment colorspace
             #augment_hsv(img, hgain=hyp['hsv_h'], sgain=hyp['hsv_s'], vgain=hyp['hsv_v'])
