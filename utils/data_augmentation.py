@@ -38,4 +38,4 @@ def bboxes2labels(bboxes):
     for bb in bboxes:
         lb = [int(bb.label), bb.x1_int, bb.y1_int, bb.x2_int, bb.y2_int]
         labels.append(lb)
-    return np.array(labels)
+    return np.array(labels, dtype=np.float32)
