@@ -24,6 +24,29 @@ def data_augmentation_1(img, labels, pad):
     labels_aug = bboxes2labels(bboxes_aug)
     return img_aug, labels_aug
 
+def data_augmentation_2(img, labels, dir0, dir1):
+    # data augmentation of MotionBlur, see the effect of the direction parameter (we will always go forward)
+    aug = iaa.MotionBlur(direction=(dir0, dir1));
+    bboxes = labels2bboxes(labels, img.shape)
+    img_aug, bboxes_aug = aug(image=img, bounding_boxes=bboxes)
+    # clip and remove boxes outside the image
+    bboxes_aug = bboxes_aug.clip_out_of_image()
+    bboxes_aug = bboxes_aug.remove_out_of_image()
+    labels_aug = bboxes2labels(bboxes_aug)
+    return img_aug, labels_aug
+
+def data_augmentation(img, labels, daug):
+    seq_aug = iaa.Sequential([
+        # Arithmetic: https://imgaug.readthedocs.io/en/latest/source/api_augmenters_arithmetic.html
+        #  cutout
+        iaa.Cutout(),
+        #  dropout
+        iaa.Dropout(),
+    ])
+
+    #TODO: aleatorietat dels parametres
+
+
 
 def labels2bboxes(labels, img_shape):
     # create BoundingBoxesOnImage object for ImgAug augmenters

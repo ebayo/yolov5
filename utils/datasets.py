@@ -542,10 +542,12 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 # 0 --> gaussian blur
                 #img = da.data_augmentation_0(img, hyp['g_blur'])
                 # 1 --> Crop and Pad
-                img, labels = da.data_augmentation_1(img, labels, hyp['pad'])
+                #img, labels = da.data_augmentation_1(img, labels, hyp['pad'])
+                # 2 --> motion blur
+                img, labels = da.data_augmentation_2(img, labels, hyp['dir0'],hyp['dir1'])
 
             # Augment colorspace
-            #augment_hsv(img, hgain=hyp['hsv_h'], sgain=hyp['hsv_s'], vgain=hyp['hsv_v'])
+            augment_hsv(img, hgain=hyp['hsv_h'], sgain=hyp['hsv_s'], vgain=hyp['hsv_v'])
 
             # Apply cutouts
             # if random.random() < 0.9:
