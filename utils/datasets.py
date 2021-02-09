@@ -544,7 +544,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 # 1 --> Crop and Pad
                 #img, labels = da.data_augmentation_1(img, labels, hyp['pad'])
                 # 2 --> motion blur
-                img, labels = da.data_augmentation_2(img, labels, hyp['dir0'],hyp['dir1'])
+                img, labels = da.data_augmentation_2(img, labels, hyp['dir0'])
 
             # Augment colorspace
             augment_hsv(img, hgain=hyp['hsv_h'], sgain=hyp['hsv_s'], vgain=hyp['hsv_v'])
