@@ -531,20 +531,23 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         if self.augment:
             # Augment imagespace
             if not mosaic:
-                #img, labels = random_perspective(img, labels,
+                # img, labels = random_perspective(img, labels,
                 #                                degrees=hyp['degrees'],
                 #                                translate=hyp['translate'],
                 #                                 scale=hyp['scale'],
                 #                                 shear=hyp['shear'],
                 #                                 perspective=hyp['perspective'])
+
                 # TODO: add call to custom data augmentation, setting rest of data augmentation parameters to 0
                 # Custom data augmentation
                 # 0 --> gaussian blur
-                #img = da.data_augmentation_0(img, hyp['g_blur'])
+                # img = da.data_augmentation_0(img, hyp['g_blur'])
                 # 1 --> Crop and Pad
-                #img, labels = da.data_augmentation_1(img, labels, hyp['pad'])
+                # img, labels = da.data_augmentation_1(img, labels, hyp['pad'])
                 # 2 --> motion blur
-                img = da.data_augmentation_2(img, labels, hyp['dir0'], hyp['dir1'])
+                # img = da.data_augmentation_2(img, hyp['dir0'], hyp['dir1'])
+                img, labels = da.data_augmentation_2(img, labels, hyp['data_aug'])
+
 
             # Augment colorspace
             augment_hsv(img, hgain=hyp['hsv_h'], sgain=hyp['hsv_s'], vgain=hyp['hsv_v'])
