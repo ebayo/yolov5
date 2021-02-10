@@ -546,7 +546,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 # img, labels = da.data_augmentation_1(img, labels, hyp['pad'])
                 # 2 --> motion blur
                 # img = da.data_augmentation_2(img, hyp['dir0'], hyp['dir1'])
-                img, labels = da.data_augmentation_2(img, labels, hyp['data_aug'])
+                img, labels = da.data_augmentation(img, labels, hyp['data_aug'])
 
 
             # Augment colorspace
