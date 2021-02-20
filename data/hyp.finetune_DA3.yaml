@@ -49,8 +49,14 @@ data_aug:
   mot_an: 15
   mot_dm: -1
   mot_dM: 1
-  jpegm: 5
-  jpegM: 20
+  jpegm: 70
+  jpegM: 95
+  con_alpham: 0.2
+  con_alphaM: 2
+  con_chan: 0.3
+  col_mulm: 0.6
+  col_mulM: 1.2
+  col_chan: 0.1
   co_num: 5
   co_sm: 0.05
   co_sM: 0.25

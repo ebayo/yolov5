@@ -436,11 +436,6 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 gb += self.imgs[i].nbytes
                 pbar.desc = 'Caching images (%.1fGB)' % (gb / 1E9)
 
-        # TODO: augmenter as an attribute --> if self.augment: self.augmenter = da.getAugmenter(self.hyp['data_aug'])
-
-        if self.augment:
-            self.augmenter = da.DataAugmenter(hyp['data_aug'])
-
     def cache_labels(self, path=Path('./labels.cache')):
         # Cache dataset labels, check images and read shapes
         x = {}  # dict
@@ -521,7 +516,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
             shape = self.batch_shapes[self.batch[index]] if self.rect else self.img_size  # final letterboxed shape
             img, ratio, pad = letterbox(img, shape, auto=False, scaleup=self.augment) # TODO: we are doing padding here!!
             shapes = (h0, w0), ((h / h0, w / w0), pad)  # for COCO mAP rescaling
-            # TODO: square image after data augmentation, also changes xywh2xyxy change!!
+
             # Load labels
             labels = []
             x = self.labels[index]
@@ -536,6 +531,13 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         if self.augment:
             # Augment imagespace
             if not mosaic:
+                # img, labels = random_perspective(img, labels,
+                #                                degrees=hyp['degrees'],
+                #                                translate=hyp['translate'],
+                #                                 scale=hyp['scale'],
+                #                                 shear=hyp['shear'],
+                #                                 perspective=hyp['perspective'])
+
                 # TODO: add call to custom data augmentation, setting rest of data augmentation parameters to 0
                 # Custom data augmentation
                 # 0 --> gaussian blur
@@ -544,16 +546,34 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 # img, labels = da.data_augmentation_1(img, labels, hyp['pad'])
                 # 2 --> motion blur
                 # img = da.data_augmentation_2(img, hyp['dir0'], hyp['dir1'])
-                #img, labels = da.data_augmentation(img, labels, hyp['data_aug'])
+                img, labels = da.data_augmentation(img, labels, hyp['data_aug'])
 
-                # Call the augment function of self.augmenter(img, labels)
-                img, labels = self.augmenter.augment(img, labels)
+
+            # Augment colorspace
+            augment_hsv(img, hgain=hyp['hsv_h'], sgain=hyp['hsv_s'], vgain=hyp['hsv_v'])
+
+            # Apply cutouts
+            # if random.random() < 0.9:
+            #     labels = cutout(img, labels)
 
         nL = len(labels)  # number of labels
         if nL:
             labels[:, 1:5] = xyxy2xywh(labels[:, 1:5])  # convert xyxy to xywh
             labels[:, [2, 4]] /= img.shape[0]  # normalized height 0-1
             labels[:, [1, 3]] /= img.shape[1]  # normalized width 0-1
+
+        #if self.augment:
+            # flip up-down
+        #    if random.random() < hyp['flipud']:
+        #        img = np.flipud(img)
+        #        if nL:
+        #            labels[:, 2] = 1 - labels[:, 2]
+
+            # flip left-right
+        #    if random.random() < hyp['fliplr']:
+        #        img = np.fliplr(img)
+        #        if nL:
+        #            labels[:, 1] = 1 - labels[:, 1]
 
         labels_out = torch.zeros((nL, 6))
         if nL:
