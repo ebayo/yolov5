@@ -436,8 +436,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 gb += self.imgs[i].nbytes
                 pbar.desc = 'Caching images (%.1fGB)' % (gb / 1E9)
 
-        # TODO: augmenter as an attribute --> if self.augment: self.augmenter = da.getAugmenter(self.hyp['data_aug'])
-
+        # DONE: augmenter as an attribute --> if self.augment: self.augmenter = da.getAugmenter(self.hyp['data_aug'])
         if self.augment:
             self.augmenter = da.DataAugmenter(hyp['data_aug'])
 
