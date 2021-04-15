@@ -140,19 +140,8 @@ def train(hyp, opt, device, tb_writer=None):
     scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda=lf)
     # plot_lr_scheduler(optimizer, scheduler, epochs)
 
-<<<<<<< HEAD
-    # Logging
-    if rank in [-1, 0] and wandb and wandb.run is None:
-        opt.hyp = hyp  # add hyperparameters
-        wandb_run = wandb.init(config=opt, resume="allow",
-                               project='YOLOv5' if opt.project == 'runs/train' else Path(opt.project).stem,
-                               name=save_dir.stem,
-                               id=ckpt.get('wandb_id') if 'ckpt' in locals() else None)
-    loggers = {'wandb': wandb}  # loggers dict
-=======
     # EMA
     ema = ModelEMA(model) if rank in [-1, 0] else None
->>>>>>> 1487bc84ff3babfb502dffb5ffbdc7e02fcb1879
 
     # Resume
     start_epoch, best_fitness = 0, 0.0
