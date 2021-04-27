@@ -22,7 +22,7 @@ from utils.general import check_requirements, xyxy2xywh, xywh2xyxy, xywhn2xyxy, 
     resample_segments, clean_str
 from utils.torch_utils import torch_distributed_zero_first
 
-import data_augmentation as da
+import utils.data_augmentation as d
 
 # Parameters
 help_url = 'https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data'
@@ -356,7 +356,10 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         self.path = path
 
         # Custom data augmentation object
-        self.augmenter = da.DataAugmenter(hyp['data_aug']) if self.augment else None
+        if self.augment and 'data_aug' in hyp:
+            self.augmenter = da.DataAugmenter(hyp['data_aug'])
+        else:
+            self.augmenter = None
 
 
         try:

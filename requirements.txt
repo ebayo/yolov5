@@ -4,13 +4,8 @@
 matplotlib>=3.2.2
 numpy>=1.18.5
 opencv-python>=4.1.2
-<<<<<<< HEAD
-Pillow~=8.1.0
-PyYAML>=5.3
-=======
 Pillow
 PyYAML>=5.3.1
->>>>>>> 1487bc84ff3babfb502dffb5ffbdc7e02fcb1879
 scipy>=1.4.1
 torch>=1.7.0
 torchvision>=0.8.1
@@ -22,7 +17,7 @@ tensorboard>=2.4.1
 
 # plotting ------------------------------------
 seaborn>=0.11.0
-#pandas~=1.2.0
+pandas
 
 # export --------------------------------------
 # coremltools>=4.1
