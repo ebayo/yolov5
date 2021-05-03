@@ -1,21 +1,21 @@
-weights: yolov5s6.pt
+weights: ts_detect/mo_s6_1280_iw_f1/weights/last.pt
 cfg: ''
 data: ../Database/db_8c_5folds/db_8c_5folds_fold_1.yaml
 hyp: data/hyp.scratch.yaml
 epochs: 1000
 batch_size: 18
 img_size:
-- 1280
-- 1280
+- 640
+- 640
 rect: false
-resume: false
+resume: true
 nosave: false
 notest: false
 noautoanchor: false
 evolve: false
 bucket: ''
 cache_images: false
-image_weights: false
+image_weights: true
 device: 0,1,2,3,4,5
 multi_scale: false
 single_cls: false
@@ -25,7 +25,7 @@ local_rank: -1
 workers: 8
 project: ts_detect
 entity: null
-name: mo_s6_1280_f1
+name: mo_s6_1280_iw_f1
 exist_ok: false
 quad: false
 linear_lr: false
@@ -36,5 +36,5 @@ save_period: -1
 artifact_alias: latest
 world_size: 1
 global_rank: -1
-save_dir: ts_detect/mo_s6_1280_f1
+save_dir: ts_detect/mo_s6_1280_iw_f1
 total_batch_size: 18
