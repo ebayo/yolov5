@@ -36,7 +36,9 @@ class DataAugmenter:
                                          per_channel=da['con_chan']),
                       iaa.MultiplyHueAndSaturation(mul=(da['col_mulm'], da['col_mulM']),
                                                    per_channel=da['col_chan'],
-                                                   from_colorspace='BGR')
+                                                   from_colorspace='BGR'),
+                      iaa.AddToHueAndSaturation((da['col_addm'], da['col_addM']),
+                                                per_channel=da['col_chan'])
                       ]
 
         # TODO: should we check for occlusions??
