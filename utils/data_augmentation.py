@@ -18,14 +18,15 @@ class DataAugmenter:
         #TODO: check the existence of the parameters??
 
         # Create aug_list with parameters in daug
-        aug_geometric = [iaa.Affine(scale={'x': (da['scalem'], da['scaleM']), 'y': (da['scalem'], da['scaleM'])},
+        # scale={'x': (da['scalem'], da['scaleM']), 'y': (da['scalem'], da['scaleM'])},
+        aug_geometric = [iaa.Affine(scale=(da['scalem'], da['scaleM']),
                                     translate_percent={'x': (-da['trans'], da['trans']),
                                                        'y': (-da['trans'], da['trans'])},
                                     rotate=(-da['rot'], da['rot']),
                                     shear=(-da['shear'], da['shear']),
                                     cval=FILL_COLOR),
                          iaa.PerspectiveTransform(scale=(0, da['pers']),
-                                                  cval=FILL_COLOR)]
+                                                  cval=FILL_COLOR, keep_size=True)]
 
         aug_camera = [iaa.GaussianBlur(sigma=(0, da['sigma'])),
                       iaa.MotionBlur(k=(da['mot_km'], da['mot_kM']),
