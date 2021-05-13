@@ -50,7 +50,7 @@ class DataAugmenter:
 
         # Create a mix of all others
         self.augmenter = iaa.Sequential([iaa.SomeOf((0, 1), aug_geometric),  # none or 1
-                                         iaa.SomeOf((0, None), aug_camera),  # from none to all
+                                         iaa.SomeOf((0, len(aug_camera)-2), aug_camera),  # from none to all-2
                                          cutout], random_order=True)  # mix the apply order
 
     def augment(self, img, labels):
