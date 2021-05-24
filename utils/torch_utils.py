@@ -137,7 +137,7 @@ def is_parallel(model):
 
 
 def intersect_dicts(da, db, exclude=()):
-    # Dictionary intersection of matching keys and shapes, omitting 'exclude' keys, using da values
+    # Dictionary intersection of matching keys_data_aug and shapes, omitting 'exclude' keys_data_aug, using da values
     return {k: v for k, v in da.items() if k in db and not any(x in k for x in exclude) and v.shape == db[k].shape}
 
 

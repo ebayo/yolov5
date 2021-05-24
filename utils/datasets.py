@@ -31,7 +31,7 @@ vid_formats = ['mov', 'avi', 'mp4', 'mpg', 'mpeg', 'm4v', 'wmv', 'mkv']  # accep
 logger = logging.getLogger(__name__)
 
 # Get orientation exif tag
-for orientation in ExifTags.TAGS.keys():
+for orientation in ExifTags.TAGS.keys_data_aug():
     if ExifTags.TAGS[orientation] == 'Orientation':
         break
 
