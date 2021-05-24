@@ -721,7 +721,7 @@ def load_mosaic(self, index):
         np.clip(x, 0, 2 * s, out=x)  # clip when using random_perspective()
     # img4, labels4 = replicate(img4, labels4)  # replicate
 
-    if self.augmentr is None:
+    if self.augmenter is None:
     # Augment
         img4, labels4 = random_perspective(img4, labels4, segments4,
                                            degrees=self.hyp['degrees'],
